@@ -8,25 +8,22 @@ var mainVm = new Vue({
 	methods: {
 		submitlocation: function(event) {
 			event.preventDefault()
-			var userinput = this.userinput
-			console.log(userinput)
-			$.get(`/search?query=${userinput}`, function(dataFromServer){
+			// var userinput = this.userinput
+			// console.log(userinput)
+				
+
+				var userinput = $('#locationTextField').val()
+				console.log(userinput)
+				
+				$.get(`/search?query=${userinput}`, function(dataFromServer, status){
+				dataFromServer = JSON.parse(dataFromServer)
 				console.log(dataFromServer)
-			})
-			// $.get(`/search`, userinput, function(dataFromServer){
-			// 	console.log(dataFromServer)
-			// })
+				console.log(status)
+				
+				})
 
-			// var vm = this;
 
-			// axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=' + this.userinput + '&key=AIzaSyBQaVXoS5ADQRsIvPFGug1J2To4HPUk84I')
-			// .then(function(datareturned){
-			// 	console.log(datareturned)
-			// })
-			// // this.$http.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=' + this.userinput + '&key=AIzaSyBQaVXoS5ADQRsIvPFGug1J2To4HPUk84I', function(data) {
-			// // 	console.log('sent successfully')
-			// // 	console.log(data)
-			// // })
-		}
 	}
+},
+
 })
