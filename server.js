@@ -17,12 +17,13 @@ app.get('/', function(req, res) {
 })
 app.get('/search', function(req, res){
 	// console.log(req)
-	var googlePlaceApi = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${req.query.userinput}&key=AIzaSyBQaVXoS5ADQRsIvPFGug1J2To4HPUk84I`
+	var googlePlaceApi = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${req.query.query}&key=AIzaSyBQaVXoS5ADQRsIvPFGug1J2To4HPUk84I`
 	request(googlePlaceApi, function(err, response, dataFromServer){
 		console.log(err)
+		console.log(req.query)
 		console.log(dataFromServer)
 		res.send(dataFromServer)
-		console.log('apicallworking')
+		console.log('apiCallworking')
 	})
   })
 //listen statement
