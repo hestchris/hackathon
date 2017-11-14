@@ -8,12 +8,11 @@
     </head>
     <body>
 		<div id="app">
-
 		<div class='space'>
 		</div>
 		<h1>HUMBLE STUMBLERS ARE DA BEST</h1>
 		<form v-on:submit="submitlocation">
-	        <label for="locationTextField" @keyup.enter='submitlocation'>Location</label>
+	        <label for="locationTextField" @keyup.enter='submitlocation'>Location {{userinput}}</label>
 	        <input v-model='userinput' id="locationTextField" type="text" size="50">
 		</form>
 	</div>

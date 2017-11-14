@@ -3,7 +3,7 @@ var mainVm = new Vue({
 
     el: '#app',
     data: {
-		userinput:'',
+		userinput:''
     },
 	methods: {
 		submitlocation: function(event) {

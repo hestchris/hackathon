@@ -19,6 +19,7 @@ app.get('/search', function(req, res){
 	// console.log(req)
 	var googlePlaceApi = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${req.query.userinput}&key=AIzaSyBQaVXoS5ADQRsIvPFGug1J2To4HPUk84I`
 	request(googlePlaceApi, function(err, response, dataFromServer){
+		console.log(req.query)
 		console.log(err)
 		console.log(dataFromServer)
 		res.send(dataFromServer)
