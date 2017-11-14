@@ -6,15 +6,16 @@ var mainVm = new Vue({
 		userinput:'',
     },
 	methods: {
-		submitlocation: function() {
+		submitlocation: function(event) {
+			event.preventDefault()
 			var userinput = this.userinput
 			console.log(userinput)
-			// $.get(`/search?query=${userinput}`, function(dataFromServer){
-			// 	console.log(dataFromServer)
-			// })
-			$.get(`/search`, userinput, function(dataFromServer){
+			$.get(`/search?query=${userinput}`, function(dataFromServer){
 				console.log(dataFromServer)
 			})
+			// $.get(`/search`, userinput, function(dataFromServer){
+			// 	console.log(dataFromServer)
+			// })
 
 			// var vm = this;
 

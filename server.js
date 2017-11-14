@@ -14,12 +14,9 @@ app.use(express.static('./public'))
 app.get('/', function(req, res) {
 
     res.sendFile('./public/html/index.html', {root:'./'})
-
-    console.log('sent index.html')
-
 })
 app.get('/search', function(req, res){
-	console.log(req)
+	// console.log(req)
 	var googlePlaceApi = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${req.query.userinput}&key=AIzaSyBQaVXoS5ADQRsIvPFGug1J2To4HPUk84I`
 	request(googlePlaceApi, function(err, response, dataFromServer){
 		console.log(err)
