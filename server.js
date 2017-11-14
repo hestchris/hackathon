@@ -17,7 +17,7 @@ app.get('/', function(req, res) {
 })
 app.get('/search', function(req, res){
 	// console.log(req)
-	var googlePlaceApi = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${req.query.query}&key=AIzaSyBQaVXoS5ADQRsIvPFGug1J2To4HPUk84I`
+	var googlePlaceApi = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${req.query.query}&key=AIzaSyBneM3QFGVEC1XUs8YfKmFPckzKegha3-8`
 	request(googlePlaceApi, function(err, response, dataFromServer){
 		console.log(err)
 		console.log(req.query)
@@ -25,10 +25,34 @@ app.get('/search', function(req, res){
 		res.send(dataFromServer)
 		console.log('apiCallworking')
 	})
+
   })
+
+app.get('/place', function(req, res){
+
+	var facebookAPI = `https://graph.facebook.com/v2.11/search?type=place&center=${req.query.center}&distance=5000&fields=name,checkins,location&access_token=186723258550710|8069d0acffdee876456780730de0e0c7`
+	request(facebookAPI, function(err, response, dataFromServer){
+
+		// console.log(req.query)
+		console.log(req.query.center)
+		// console.log(req.query.center)
+		console.log(dataFromServer)
+		res.send(dataFromServer)
+		console.log('facebookAPI working')
+	})
+})
+
+
+
+
+
+
+
+
+
 //listen statement
-app.listen(8080, function(){
-    console.log('server listening on port 8080')
+app.listen(8083, function(){
+    console.log('server listening on port 8083')
 })
 
 
