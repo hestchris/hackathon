@@ -12,6 +12,13 @@ app.get('/', function(req, res) {
 
     res.sendFile('./public/html/index.html', {root:'./'})
 })
+app.get('/map', function(req, res){
+
+	res.sendFile('./public/html/map.html', {root:'./'})
+})
+// app.get('/map', function(req, res) {
+// 		res.sendFile('./public/html/map.html', {root:'./'})
+// })
 
 app.get('/search', function(req, res){
 
@@ -21,7 +28,7 @@ app.get('/search', function(req, res){
 
 		console.log(err)
 
-		// console.log(response)
+		console.log(response)
 
 		// console.log(dataFromServer)
 
@@ -29,6 +36,9 @@ app.get('/search', function(req, res){
 
 		console.log('apiCallworking')
 	})
+
+
+
 })
 
 app.get('/place', function(req, res){
