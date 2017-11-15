@@ -6,39 +6,46 @@ const request = require('request')
 
 
 const app = express()
-
-//connect to mongoose
-// mongoose.connect('')
-//middleware
 app.use(express.static('./public'))
+
 app.get('/', function(req, res) {
 
     res.sendFile('./public/html/index.html', {root:'./'})
 })
+
 app.get('/search', function(req, res){
-	// console.log(req)
+	
 	var googlePlaceApi = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${req.query.query}&key=AIzaSyBneM3QFGVEC1XUs8YfKmFPckzKegha3-8`
+	
 	request(googlePlaceApi, function(err, response, dataFromServer){
+		
 		console.log(err)
-		console.log(req.query)
-		console.log(dataFromServer)
+
+		// console.log(response)
+				
+		// console.log(dataFromServer)
+		
 		res.send(dataFromServer)
+		
 		console.log('apiCallworking')
 	})
-
-  })
+})
 
 app.get('/place', function(req, res){
 
-	var facebookAPI = `https://graph.facebook.com/v2.11/search?type=place&center=${req.query.center}&distance=5000&fields=name,checkins,location&access_token=186723258550710|8069d0acffdee876456780730de0e0c7`
+	var facebookAPI = `https://graph.facebook.com/v2.11/search?type=place&center=${req.query.center}&distance=5000&fields=name,checkins,location,category&limit=100&access_token=186723258550710|8069d0acffdee876456780730de0e0c7`
+	
 	request(facebookAPI, function(err, response, dataFromServer){
 
-		// console.log(req.query)
-		console.log(req.query.center)
-		// console.log(req.query.center)
-		console.log(dataFromServer)
+		console.log(err)
+
+		//console.log(response)
+		
+		// console.log(dataFromServer)
+		
 		res.send(dataFromServer)
-		console.log('facebookAPI working')
+		
+		console.log('facebookAPI sent data')
 	})
 })
 
@@ -50,37 +57,10 @@ app.get('/place', function(req, res){
 
 
 
-//listen statement
+//listen
 app.listen(8083, function(){
+    
     console.log('server listening on port 8083')
 })
 
 
-
-
-// var express = require(‘express’)
-//
-// var app = express()
-//
-// var request = require(‘request’)
-//
-// app.get(‘/search’, function(req, res){
-//
-//     var placeAPI = ’https://graph.facebook.com/v2.11/search?type=place&center=40.7304,-73.9921&distance=1000&fields=name,checkins&access_token=186723258550710%7C8069d0acffdee876456780730de0e0c7'
-//
-//     request(placeAPI, function(err, response, dataFromServer){
-//
-//         console.log(err)
-//
-//         console.log(dataFromServer)
-//
-//         res.send(dataFromServer)
-//
-//
-//         console.log(‘sent/recieved place api’)
-//     })
-//
-// })
-//
-//
-// app.listen(8085)
