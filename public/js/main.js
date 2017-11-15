@@ -1,19 +1,53 @@
+
 var mainVm = new Vue({
 
     el: '#app',
     data: {
 		userinput:'',
-		locations:[],
+		fbLocations:[],
 		parks:[],
 		restaurants:[],
 
     },
+    
+    beforeCreate: function(){
+
+
+    },
+
 	methods: {
+		initMap: function(){
+			var center = new google.maps.LatLng(51.5074, 0.1278);
+			
+			var map = new google.maps.Map(document.getElementById('map'), {
+			  zoom: 3,
+			  center: center,
+			  mapTypeId: google.maps.MapTypeId.ROADMAP
+			});
+			
+			var markers = [];
+			for (var i = 0; i < 100; i++) {
+			  var dataPhoto = data.photos[i];
+			  var latLng = new google.maps.LatLng(dataPhoto.latitude,
+			      dataPhoto.longitude);
+			  var marker = new google.maps.Marker({
+			    position: latLng
+			  });
+			  markers.push(marker);
+			}
+			
+			var options = {
+			    imagePath: 'https://gmaps-marker-clusterer.github.io/gmaps-marker-clusterer/assets/images/m'
+			};
+			
+			var markerCluster = new MarkerClusterer(map, markers, options);
+
+		},
 		submitlocation: function(event) {
 			
 			event.preventDefault()	
 
-				this.locations = []			
+				this.fbLocations = []			
 				this.parks = []			
 				this.restaurants = []			
 
@@ -21,14 +55,14 @@ var mainVm = new Vue({
 				
 				console.log(userinput)
 				
-				$.get(`/search?query=${userinput}`, function(dataFromServer, status){
+				$.get(`/search?query=${userinput}`, function(googleData, status){
 
-					dataFromServer = JSON.parse(dataFromServer)
+					googleData = JSON.parse(googleData)
 					
-					// console.log(dataFromServer)
+					// console.log(googleData)
 
-					var latitude = dataFromServer.results[0].geometry.location.lat
-					var longitude = dataFromServer.results[0].geometry.location.lng
+					var latitude = googleData.results[0].geometry.location.lat
+					var longitude = googleData.results[0].geometry.location.lng
 
 //GET REQUEST TO FACEBOOK
 
@@ -46,9 +80,9 @@ var mainVm = new Vue({
 
 		//PUSH AND SORT LOCATIONS ARRAY
 
-								mainVm.locations.push(facebookData.data[i])	
+								mainVm.fbLocations.push(facebookData.data[i])	
 
-								mainVm.locations.sort(function(a,b) {
+								mainVm.fbLocations.sort(function(a,b) {
 
 									return b.checkins - a.checkins
 								}) 
@@ -68,7 +102,7 @@ var mainVm = new Vue({
 							}
 								
 						}
-								console.log(mainVm.locations)
+								console.log(mainVm.fbLocations)
 								console.log(mainVm.parks)
 								console.log(mainVm.restaurants)
 

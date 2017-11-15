@@ -2,9 +2,14 @@
 <html>
     <head>
 		<script src="https://unpkg.com/vue"></script>
-		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
 		<link rel='stylesheet' type="text/css" href="../css/main.css">
+		 <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+
+      /* Optional: Makes the sample page fill the window. */
+    </style>
     </head>
     <body>
 		<div id="app">
@@ -12,11 +17,14 @@
 		<div class='space'>
 		</div>
 		<h1>HUMBLE STUMBLERS ARE DA BEST</h1>
+		<button v-on:click="initMap">map</button>
 		<form v-on:submit="submitlocation">
 	        <label for="locationTextField" @keyup.enter='submitlocation'>Location</label>
 	        <input v-model='userinput' id="locationTextField" type="text" size="50">
 		</form>
 	</div>
+
+	<div id="map"></div>
 		<script>
             function init() {
                 var input = document.getElementById('locationTextField');
@@ -25,6 +33,7 @@
             google.maps.event.addDomListener(window, 'load', init);
         </script>
 		<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+		<!-- <script async defer src="https://maps.googleapis.com/maps/api/js?e&key=AIzaSyDlmcnTkY5oOIpWsbxz23N2zld6UYk4QGI"></script> -->
 		<script src="../js/main.js"></script>
 
 
