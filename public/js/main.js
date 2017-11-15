@@ -1,39 +1,120 @@
+
 var mainVm = new Vue({
-	// google.maps.event.addDomListener(window, 'load', init);
 
     el: '#app',
     data: {
-		userinput:''
+		userinput:'',
+		fbLocations:[],
+		parks:[],
+		restaurants:[],
+
     },
+
+    beforeCreate: function(){
+
+
+    },
+
 	methods: {
+		initMap: function(){
+			var center = new google.maps.LatLng(51.5074, 0.1278);
+
+			var map = new google.maps.Map(document.getElementById('map'), {
+			  zoom: 3,
+			  center: center,
+			  mapTypeId: google.maps.MapTypeId.ROADMAP
+			});
+
+			var markers = [];
+			for (var i = 0; i < 100; i++) {
+			  var dataPhoto = data.photos[i];
+			  var latLng = new google.maps.LatLng(dataPhoto.latitude,
+			      dataPhoto.longitude);
+			  var marker = new google.maps.Marker({
+			    position: latLng
+			  });
+			  markers.push(marker);
+			}
+
+			var options = {
+			    imagePath: 'https://gmaps-marker-clusterer.github.io/gmaps-marker-clusterer/assets/images/m'
+			};
+
+			var markerCluster = new MarkerClusterer(map, markers, options);
+
+		},
 		submitlocation: function(event) {
+
 			event.preventDefault()
-			// var userinput = this.userinput
-			// console.log(userinput)
 
+				this.fbLocations = []
+				this.parks = []
+				this.restaurants = []
 
-			var userinput = $('#locationTextField').val()
-			console.log(userinput)
+				var userinput = $('#locationTextField').val()
 
-			$.get(`/search?query=${userinput}`, function(dataFromServer, status){
-			dataFromServer = JSON.parse(dataFromServer)
-			console.log(dataFromServer)
-			// console.log(status)
-			var latitude = dataFromServer.results[0].geometry.location.lat
-			var longitude = dataFromServer.results[0].geometry.location.lng
+				console.log(userinput)
 
-			var fixLat = latitude.toFixed(2)
-			var fixLng = longitude.toFixed(4)
+				$.get(`/search?query=${userinput}`, function(googleData, status){
 
-			console.log(fixLat, fixLng)
+					googleData = JSON.parse(googleData)
 
+					// console.log(googleData)
 
-				$.get(`/place?center=${fixLat},${fixLng}`, function(dataFromServer, status){
+					var latitude = googleData.results[0].geometry.location.lat
+					var longitude = googleData.results[0].geometry.location.lng
 
-					dataFromServer = JSON.parse(dataFromServer)
-					console.log(dataFromServer)
-				})
+//GET REQUEST TO FACEBOOK
+
+					$.get(`/place?center=${latitude},${longitude}`, function(facebookData, status){
+
+						facebookData = JSON.parse(facebookData)
+
+						console.log(facebookData)
+
+						// console.log(facebookData.checkins)
+
+						for(var i = 0; i < facebookData.data.length; i++){
+
+							// console.log(facebookData.data[i].checkins)
+
+		//PUSH AND SORT LOCATIONS ARRAY
+
+								mainVm.fbLocations.push(facebookData.data[i])
+
+								mainVm.fbLocations.sort(function(a,b) {
+
+									return b.checkins - a.checkins
+								})
+
+		//PUSH PARKS ARRAY
+
+							if (facebookData.data[i].category === 'Park') {
+
+								mainVm.parks.push(facebookData.data[i])
+							}
+
+		//PUSH RESTAURANTS ARRAY
+
+							if (facebookData.data[i].category === 'Restaurant') {
+
+								mainVm.restaurants.push(facebookData.data[i])
+							}
+
+						}
+								console.log(mainVm.fbLocations)
+								console.log(mainVm.parks)
+								console.log(mainVm.restaurants)
+
+					})
+
 			})
 		}
-	}
+
+
+	},
+
+
+
+
 })
