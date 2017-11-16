@@ -22,18 +22,20 @@ app.get('/map', function(req, res){
 
 app.get('/search', function(req, res){
 
+	console.log(req.query)
+
+
 	var googlePlaceApi = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${req.query.query}&key=AIzaSyBneM3QFGVEC1XUs8YfKmFPckzKegha3-8`
 
 	request(googlePlaceApi, function(err, response, dataFromServer){
 
-		console.log(err)
+		// console.log(err)
 
 		console.log(response)
 
-		// console.log(dataFromServer)
+		console.log(dataFromServer)
 
 		res.send(dataFromServer)
-
 		console.log('apiCallworking')
 	})
 
